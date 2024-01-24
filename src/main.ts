@@ -6,6 +6,7 @@ import * as github from '@actions/github'
 interface Update {
   'package-ecosystem': string
   'target-branch': string
+  milestone?: number
 }
 
 interface Template {
@@ -36,7 +37,11 @@ export async function run(): Promise<void> {
         repo: github.context.repo.repo
       }
     )
-    core.info(`Milestones data ${JSON.stringify(milestones.data)}`)
+    const data: any[] = milestones.data
+    const milestoneByTitle = data.reduce((map, obj) => {
+      map[obj.title] = obj.number
+      return map
+    }, {})
 
     for (const baseUpdate of updatesTemplate) {
       for (const branch of inputs.branches) {
@@ -44,16 +49,22 @@ export async function run(): Promise<void> {
           ...baseUpdate,
           'target-branch': branch
         }
+        const milestone = milestoneByTitle.get(branch)
+        if (!!milestone) {
+          resolved.milestone = milestone
+        } else {
+          delete resolved.milestone
+        }
         resolvedUpdates.push(resolved)
       }
     }
     core.info(`Resolved updates ${resolvedUpdates}`)
     template.updates = resolvedUpdates
     core.info('Writing config to .github/dependabot.yml')
-    core.info(JSON.stringify(template))
     core.info('Final template:')
-    core.info(yaml.dump(template))
-    // fs.writeFileSync('.github/dependabot.yml', yaml.dump(template))
+    const finalTemplate = yaml.dump(template, { noRefs: true })
+    core.info(finalTemplate)
+    fs.writeFileSync('.github/dependabot.yml', finalTemplate)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

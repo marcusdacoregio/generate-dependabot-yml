@@ -25,3 +25,5 @@ jobs:
         with:
           branches: 'main,6.2.x,6.1.x'
           gh-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
