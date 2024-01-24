@@ -1,0 +1,106 @@
+version: 2
+registries:
+  spring-milestones:
+    type: maven-repository
+    url: https://repo.spring.io/milestone
+updates:
+  - package-ecosystem: gradle
+    target-branch: main
+    directory: /
+    schedule:
+      interval: daily
+      time: '03:00'
+      timezone: Etc/UTC
+    labels:
+      - 'type: dependency-upgrade'
+    registries:
+      - spring-milestones
+    ignore:
+      - dependency-name: com.nimbusds:nimbus-jose-jwt
+      - dependency-name: org.python:jython
+      - dependency-name: org.apache.directory.server:*
+      - dependency-name: org.junit:junit-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: org.mockito:mockito-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+  - package-ecosystem: gradle
+    target-branch: 6.2.x
+    milestone: 2
+    directory: /
+    schedule:
+      interval: daily
+      time: '03:00'
+      timezone: Etc/UTC
+    labels:
+      - 'type: dependency-upgrade'
+    registries:
+      - spring-milestones
+    ignore:
+      - dependency-name: com.nimbusds:nimbus-jose-jwt
+      - dependency-name: org.python:jython
+      - dependency-name: org.apache.directory.server:*
+      - dependency-name: org.junit:junit-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: org.mockito:mockito-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+  - package-ecosystem: gradle
+    target-branch: 6.1.x
+    milestone: 1
+    directory: /
+    schedule:
+      interval: daily
+      time: '03:00'
+      timezone: Etc/UTC
+    labels:
+      - 'type: dependency-upgrade'
+    registries:
+      - spring-milestones
+    ignore:
+      - dependency-name: com.nimbusds:nimbus-jose-jwt
+      - dependency-name: org.python:jython
+      - dependency-name: org.apache.directory.server:*
+      - dependency-name: org.junit:junit-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: org.mockito:mockito-bom
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+  - package-ecosystem: github-actions
+    target-branch: main
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: sjohnr/*
+  - package-ecosystem: github-actions
+    target-branch: 6.2.x
+    milestone: 2
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: sjohnr/*
+  - package-ecosystem: github-actions
+    target-branch: 6.1.x
+    milestone: 1
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: sjohnr/*
