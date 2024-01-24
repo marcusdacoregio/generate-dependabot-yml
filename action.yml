@@ -15,7 +15,7 @@ inputs:
   template-file:
     description: 'The file used as template'
     required: false
-    default: './github/dependabot.template.yml'
+    default: '.github/dependabot.template.yml'
   gh-token:
     description: 'GitHub Token'
     required: true
