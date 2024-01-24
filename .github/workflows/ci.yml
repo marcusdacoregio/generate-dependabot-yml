@@ -1,10 +1,7 @@
 name: Continuous Integration
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,5 +20,7 @@ jobs:
       - name: Test Local Action
         id: test-action
         uses: ./
+        env:
+          GH_TOKEN: {{ secrets.GITHUB_TOKEN }}
         with:
           branches: 6.1.x, 6.2.x, main

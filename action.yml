@@ -9,15 +9,13 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  branches:
+    description: 'The branches'
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  template-file:
+    description: 'The file used as template'
+    required: true
+    default: './github/dependabot.template.yml'
 
 runs:
   using: node20
