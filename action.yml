@@ -16,6 +16,9 @@ inputs:
     description: 'The file used as template'
     required: false
     default: './github/dependabot.template.yml'
+  gh-token:
+    description: 'GitHub Token'
+    required: true
 
 runs:
   using: node20

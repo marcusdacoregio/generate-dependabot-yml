@@ -16,10 +16,12 @@ jobs:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Test Local Action
         id: test-action
         uses: ./
         with:
           branches: '6.1.x, 6.2.x, main'
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}

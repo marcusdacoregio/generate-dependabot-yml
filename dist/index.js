@@ -33061,7 +33061,7 @@ async function run() {
         const template = yaml.load(fs.readFileSync(inputs.templateFile, 'utf-8'));
         const updatesTemplate = template.updates;
         const resolvedUpdates = [];
-        const octokit = github.getOctokit(core.getInput('GH_TOKEN'));
+        const octokit = github.getOctokit(core.getInput('gh-token'));
         const milestones = await octokit.request('GET /repos/{owner}/{repo}/milestones?state=open', {
             owner: github.context.repo.owner,
             repo: github.context.repo.repo

@@ -28,7 +28,7 @@ export async function run(): Promise<void> {
     ) as Template
     const updatesTemplate = template.updates
     const resolvedUpdates: Update[] = []
-    const octokit = github.getOctokit(core.getInput('GH_TOKEN'))
+    const octokit = github.getOctokit(core.getInput('gh-token'))
     const milestones = await octokit.request(
       'GET /repos/{owner}/{repo}/milestones?state=open',
       {
