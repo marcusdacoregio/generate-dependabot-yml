@@ -33089,10 +33089,10 @@ async function run() {
         }
         core.info(`Resolved updates ${resolvedUpdates}`);
         template.updates = resolvedUpdates;
-        core.info('Writing config to .github/dependabot.yml');
         core.info('Final template:');
         const finalTemplate = yaml.dump(template, { noRefs: true });
         core.info(finalTemplate);
+        core.info('Writing to .github/dependabot.yml');
         fs.writeFileSync('.github/dependabot.yml', finalTemplate);
     }
     catch (error) {
