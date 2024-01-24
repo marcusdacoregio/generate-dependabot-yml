@@ -14,7 +14,7 @@ inputs:
     required: true
   template-file:
     description: 'The file used as template'
-    required: true
+    required: false
     default: './github/dependabot.template.yml'
 
 runs:
