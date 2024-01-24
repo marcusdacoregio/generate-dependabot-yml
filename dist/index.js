@@ -33077,7 +33077,7 @@ async function run() {
                     ...baseUpdate,
                     'target-branch': branch
                 };
-                const milestone = milestoneByTitle.get(branch);
+                const milestone = milestoneByTitle[branch];
                 if (!!milestone) {
                     resolved.milestone = milestone;
                 }

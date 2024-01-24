@@ -49,7 +49,7 @@ export async function run(): Promise<void> {
           ...baseUpdate,
           'target-branch': branch
         }
-        const milestone = milestoneByTitle.get(branch)
+        const milestone = milestoneByTitle[branch]
         if (!!milestone) {
           resolved.milestone = milestone
         } else {
