@@ -23,5 +23,5 @@ jobs:
         id: test-action
         uses: ./
         with:
-          branches: '6.1.x, 6.2.x, main'
+          branches: 'main,6.2.x,6.1.x'
           gh-token: ${{ secrets.GITHUB_TOKEN }}

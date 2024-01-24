@@ -33080,6 +33080,8 @@ async function run() {
         template.updates = resolvedUpdates;
         core.info('Writing config to .github/dependabot.yml');
         core.info(JSON.stringify(template));
+        core.info('Final template:');
+        core.info(yaml.dump(template));
         // fs.writeFileSync('.github/dependabot.yml', yaml.dump(template))
     }
     catch (error) {
