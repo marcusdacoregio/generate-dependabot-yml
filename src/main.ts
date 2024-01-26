@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import * as yaml from 'js-yaml'
 import * as fs from 'fs'
-import * as github from '@actions/github'
 
 interface Update {
   'package-ecosystem': string
@@ -29,31 +28,12 @@ export async function run(): Promise<void> {
     ) as Template
     const updatesTemplate = template.updates
     const resolvedUpdates: Update[] = []
-    const octokit = github.getOctokit(core.getInput('gh-token'))
-    const milestones = await octokit.request(
-      'GET /repos/{owner}/{repo}/milestones?state=open',
-      {
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo
-      }
-    )
-    const data: any[] = milestones.data
-    const milestoneByTitle = data.reduce((map, obj) => {
-      map[obj.title] = obj.number
-      return map
-    }, {})
 
     for (const baseUpdate of updatesTemplate) {
       for (const branch of inputs.branches) {
         const resolved: Update = {
           ...baseUpdate,
           'target-branch': branch
-        }
-        const milestone = milestoneByTitle[branch]
-        if (!!milestone) {
-          resolved.milestone = milestone
-        } else {
-          delete resolved.milestone
         }
         resolvedUpdates.push(resolved)
       }
