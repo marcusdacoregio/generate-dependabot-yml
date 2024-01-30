@@ -28853,9 +28853,6 @@ const inputs = {
  */
 async function run() {
     try {
-        if (!inputs.branches || inputs.branches.length < 2) {
-            throw new Error('Please specify at least 2 branches');
-        }
         const template = yaml.load(fs.readFileSync(inputs.templateFile, 'utf-8'));
         const updatesTemplate = template.updates;
         const resolvedUpdates = [];
