@@ -5,7 +5,6 @@ import * as fs from 'fs'
 interface Update {
   'package-ecosystem': string
   'target-branch': string
-  milestone?: number
 }
 
 interface Template {
@@ -13,7 +12,10 @@ interface Template {
 }
 
 const inputs = {
-  branches: (core.getInput('branches') as string).split(',').map(v => v.trim()),
+  gradleBranches: (core.getInput('gradle-branches') as string).split(','),
+  githubActionsBranches: (
+    core.getInput('github-actions-branches') as string
+  ).split(','),
   templateFile: core.getInput('template-file')
 }
 
@@ -30,12 +32,17 @@ export async function run(): Promise<void> {
     const resolvedUpdates: Update[] = []
 
     for (const baseUpdate of updatesTemplate) {
-      for (const branch of inputs.branches) {
-        const resolved: Update = {
-          ...baseUpdate,
-          'target-branch': branch
-        }
-        resolvedUpdates.push(resolved)
+      if (baseUpdate['package-ecosystem'] == 'gradle') {
+        resolvedUpdates.push(
+          ...resolveUpdate(baseUpdate, inputs.gradleBranches)
+        )
+        continue
+      }
+      if (baseUpdate['package-ecosystem'] == 'github-actions') {
+        resolvedUpdates.push(
+          ...resolveUpdate(baseUpdate, inputs.githubActionsBranches)
+        )
+        continue
       }
     }
     core.info(`Resolved updates ${resolvedUpdates}`)
@@ -49,4 +56,19 @@ export async function run(): Promise<void> {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
   }
+}
+
+function resolveUpdate(baseUpdate: Update, branches: string[]): Update[] {
+  const updates: Update[] = []
+  if (branches.length === 0) {
+    return updates
+  }
+  for (const branch of branches) {
+    const resolved: Update = {
+      ...baseUpdate,
+      'target-branch': branch
+    }
+    updates.push(resolved)
+  }
+  return updates
 }

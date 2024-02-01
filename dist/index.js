@@ -28844,7 +28844,8 @@ const core = __importStar(__nccwpck_require__(2186));
 const yaml = __importStar(__nccwpck_require__(1917));
 const fs = __importStar(__nccwpck_require__(7147));
 const inputs = {
-    branches: core.getInput('branches').split(',').map(v => v.trim()),
+    gradleBranches: core.getInput('gradle-branches').split(','),
+    githubActionsBranches: core.getInput('github-actions-branches').split(','),
     templateFile: core.getInput('template-file')
 };
 /**
@@ -28857,12 +28858,13 @@ async function run() {
         const updatesTemplate = template.updates;
         const resolvedUpdates = [];
         for (const baseUpdate of updatesTemplate) {
-            for (const branch of inputs.branches) {
-                const resolved = {
-                    ...baseUpdate,
-                    'target-branch': branch
-                };
-                resolvedUpdates.push(resolved);
+            if (baseUpdate['package-ecosystem'] == 'gradle') {
+                resolvedUpdates.push(...resolveUpdate(baseUpdate, inputs.gradleBranches));
+                continue;
+            }
+            if (baseUpdate['package-ecosystem'] == 'github-actions') {
+                resolvedUpdates.push(...resolveUpdate(baseUpdate, inputs.githubActionsBranches));
+                continue;
             }
         }
         core.info(`Resolved updates ${resolvedUpdates}`);
@@ -28880,6 +28882,20 @@ async function run() {
     }
 }
 exports.run = run;
+function resolveUpdate(baseUpdate, branches) {
+    const updates = [];
+    if (branches.length === 0) {
+        return updates;
+    }
+    for (const branch of branches) {
+        const resolved = {
+            ...baseUpdate,
+            'target-branch': branch
+        };
+        updates.push(resolved);
+    }
+    return updates;
+}
 
 
 /***/ }),

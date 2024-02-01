@@ -9,9 +9,12 @@ branding:
 
 # Define your inputs here.
 inputs:
-  branches:
-    description: 'The branches'
-    required: true
+  gradle-branches:
+    description: 'The branches for gradle package-ecosystem'
+    required: false
+  github-actions-branches:
+    description: 'The branches for github-actions package-ecosystem'
+    required: false
   template-file:
     description: 'The file used as template'
     required: false

@@ -25,7 +25,8 @@ jobs:
         id: test-action
         uses: ./
         with:
-          branches: 'main,6.2.x,6.1.x'
+          gradle-branches: 'main,6.2.x,6.1.x'
+          github-actions-branches: 'main,6.2.x,6.1.x,docs-build'
           gh-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
